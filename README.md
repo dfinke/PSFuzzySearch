@@ -1,5 +1,9 @@
 # Fuzzy Search
 
+[How is the fuzzy search algorithm in Sublime Text designed?](https://www.quora.com/How-is-the-fuzzy-search-algorithm-in-Sublime-Text-designed)
+
+Here it is in PowerShell.
+
 ```
 .\countries.ps1 | Select-FuzzyString pia
 .\countries.ps1 | Select-FuzzyString uae
