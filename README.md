@@ -10,3 +10,5 @@
 ```
 
 ## In Action
+
+![](https://raw.githubusercontent.com/dfinke/PowerShellFuzzySearch/master/media/fuzzysearch.gif)
