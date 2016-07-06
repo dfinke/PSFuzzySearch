@@ -1,11 +1,19 @@
-﻿function Select-FuzzyString {
+﻿function Get-FuzzyPattern {
+    param(        
+        $search=''
+    )
+
+    $search.ToCharArray() -join '.*?'
+}
+
+function Select-FuzzyString {
     param(        
         $search='',
         [parameter(ValueFromPipeline=$true)]
         $data
     )
     
-    Begin   { $search = $search.ToCharArray() -join '.*?' } 
+    Begin   { $search = Get-FuzzyPattern -Search $search } 
     Process { if($data -match $search) { $data } }
 }
 
