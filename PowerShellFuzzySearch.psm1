@@ -17,7 +17,7 @@
 #>
 function Get-FuzzyPattern {
     [CmdletBinding()]
-    [OutputType([System.Text.RegularExpressions.Regex])]
+    [OutputType([String])]
     param(
         [Parameter(Mandatory, Position=0)]        
         $Search=''
@@ -25,7 +25,7 @@ function Get-FuzzyPattern {
 
     $escArray = $Search.ToCharArray() | Foreach { [Regex]::Escape($_) }  
     
-    return $escArray -join '.*?' -as [Regex]
+    return $escArray -join '.*?'
 }
 
 <#
@@ -120,7 +120,7 @@ function Select-FuzzyChildItem {
 
     $params = $PSBoundParameters
     $params.Remove("Search") | Out-Null
-    Get-ChildItem @params | Select-Fuzzy -Search $search
+    Get-ChildItem @params | Select-Fuzzy -Search $Search
 }
 
 function Select-FuzzyEvents {
