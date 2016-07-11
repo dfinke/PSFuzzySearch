@@ -141,11 +141,32 @@ function Select-FuzzyEvents {
 
     $appEvents = Get-EventLog -LogName $LogName
 
-    $appEvents.Where({ 
-        $string = "{0} {1} {2} {3}" -f $_.Source, $_.MachineName, $_.EntryType, $_.Message 
-        $string -match $pattern
+    $appEvents.Where({  
+        $_.Source -match $pattern -or
+        $_.MachineName -match $pattern -or
+        $_.EntryType -match $pattern -or
+        $_.Message -match $pattern
     })
 
+}
+
+function Select-FuzzyVariable {
+    [CmdletBinding()]
+    [OutputType([System.Object])]
+    param(
+        # Search String
+        [Parameter(Mandatory, Position=0)]
+        [string]
+        $Search = ''
+    )
+
+    $pattern = Get-FuzzyPattern -Search $Search 
+
+    $variables = Get-Variable
+
+    $variables.Where({ 
+        ($_.Key -match $pattern -or $_.Value -match $pattern) -and $_.Name -ne "pattern" -and $_.Name -ne "Search" -and $_.Name -ne '$'
+    })
 }
 
 Set-Alias sfs Select-FuzzyString
