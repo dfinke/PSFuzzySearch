@@ -169,6 +169,17 @@ function Select-FuzzyVariable {
     })
 }
 
+$script:PSReadlineHandlerChord = $null
+
+$MyInvocation.MyCommand.ScriptBlock.Module.OnRemove =
+{
+	if ($script:PSReadlineHandlerChord -ne $null) {
+		Remove-PSReadlineKeyHandler $script:PSReadlineHandlerChord
+	}
+}
+
+. "$PSScriptRoot\PSREadLine_FuzzyCommand.ps1"
+
 Set-Alias sfs Select-FuzzyString
 Set-Alias sf Select-Fuzzy
 Set-Alias sfcm Select-FuzzyCommand
