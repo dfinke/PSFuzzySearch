@@ -1,4 +1,4 @@
-. .\Select-FuzzyString.ps1
+Import-Module .\PowerShellFuzzySearch.psd1 -Force
 
 'Select-FuzzyString pia'
 .\countries.ps1 | Select-FuzzyString pia
