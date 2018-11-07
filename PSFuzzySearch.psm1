@@ -19,8 +19,8 @@ function Get-FuzzyPattern {
     [CmdletBinding()]
     [OutputType([String])]
     param(
-        [Parameter(Mandatory, Position=0)]
-        $Search=''
+        [Parameter(Mandatory, Position = 0)]
+        $Search = ''
     )
 
     $escArray = $Search.ToCharArray() | Foreach { [Regex]::Escape($_) }
@@ -50,30 +50,28 @@ function Select-FuzzyString {
     [CmdletBinding()]
     [OutputType([Microsoft.PowerShell.Commands.MatchInfo])]
     param(
-        [Parameter(Mandatory, Position=0)]
-        $Search='',
-        [parameter(ValueFromPipeline=$true)]
+        [Parameter(Mandatory, Position = 0)]
+        $Search = '',
+        [parameter(ValueFromPipeline = $true)]
         $Path
     )
 
-    Begin   { $pattern = Get-FuzzyPattern $Search }
+    Begin { $pattern = Get-FuzzyPattern $Search }
     Process { $Path | Select-String -Pattern $pattern }
 }
 
 function Select-Fuzzy {
     [CmdletBinding()]
     param(
-        $Search='',
-        [parameter(ValueFromPipeline=$true)]
+        $Search = '',
+        [parameter(ValueFromPipeline = $true)]
         $InputObject
     )
 
-    Begin
-    {
+    Begin {
         $pattern = Get-FuzzyPattern -Search $Search
     }
-    Process
-    {
+    Process {
         If ($InputObject -match $pattern) { $InputObject }
     }
 }
@@ -82,9 +80,9 @@ function Select-Fuzzy {
 function Select-FuzzyCommand {
     [CmdletBinding()]
     [OutputType([System.Management.Automation.AliasInfo],
-                [System.Management.Automation.FunctionInfo],
-                [System.Management.Automation.FilterInfo],
-                [System.Management.Automation.CmdletInfo])]
+        [System.Management.Automation.FunctionInfo],
+        [System.Management.Automation.FilterInfo],
+        [System.Management.Automation.CmdletInfo])]
     param(
         # Search String
         [Parameter(Mandatory)]
@@ -99,14 +97,14 @@ function Select-FuzzyChildItem {
     [CmdletBinding()]
     param(
         # Search String
-        [Parameter(Mandatory, Position=0)]
+        [Parameter(Mandatory, Position = 0)]
         [string]
         $Search = '',
 
         # Specifies a path to one or more locations.
-        [Parameter(ValueFromPipeline=$true,
-                   Position=1,
-                   HelpMessage="Path to one or more locations.")]
+        [Parameter(ValueFromPipeline = $true,
+            Position = 1,
+            HelpMessage = "Path to one or more locations.")]
         [Alias("PSPath")]
         [ValidateNotNullOrEmpty()]
         [string[]]
@@ -128,11 +126,11 @@ function Select-FuzzyEvents {
     [OutputType([System.Diagnostics.EventLogEntry])]
     param(
         # Search String
-        [Parameter(Mandatory, Position=0)]
+        [Parameter(Mandatory, Position = 0)]
         [string]
         $Search = '',
 
-	    [Parameter(Position=1)]
+        [Parameter(Position = 1)]
         [string]
         $LogName = "Application"
     )
@@ -141,12 +139,12 @@ function Select-FuzzyEvents {
 
     $appEvents = Get-EventLog -LogName $LogName
 
-    $appEvents.Where({
-        $_.Source -match $pattern -or
-        $_.MachineName -match $pattern -or
-        $_.EntryType -match $pattern -or
-        $_.Message -match $pattern
-    })
+    $appEvents.Where( {
+            $_.Source -match $pattern -or
+            $_.MachineName -match $pattern -or
+            $_.EntryType -match $pattern -or
+            $_.Message -match $pattern
+        })
 
 }
 
@@ -155,7 +153,7 @@ function Select-FuzzyVariable {
     [OutputType([System.Object])]
     param(
         # Search String
-        [Parameter(Mandatory, Position=0)]
+        [Parameter(Mandatory, Position = 0)]
         [string]
         $Search = ''
     )
@@ -164,18 +162,18 @@ function Select-FuzzyVariable {
 
     $variables = Get-Variable
 
-    $variables.Where({
-        ($_.Key -match $pattern -or $_.Value -match $pattern) -and $_.Name -ne "pattern" -and $_.Name -ne "Search" -and $_.Name -ne '$'
-    })
+    $variables.Where( {
+            ($_.Key -match $pattern -or $_.Value -match $pattern) -and $_.Name -ne "pattern" -and $_.Name -ne "Search" -and $_.Name -ne '$'
+        })
 }
 
 $script:PSReadlineHandlerChord = $null
 
 $MyInvocation.MyCommand.ScriptBlock.Module.OnRemove =
 {
-	if ($script:PSReadlineHandlerChord -ne $null) {
-		Remove-PSReadlineKeyHandler $script:PSReadlineHandlerChord
-	}
+    if ($script:PSReadlineHandlerChord -ne $null) {
+        Remove-PSReadlineKeyHandler $script:PSReadlineHandlerChord
+    }
 }
 
 . "$PSScriptRoot\PSREadLine_FuzzyCommand.ps1"
@@ -186,6 +184,7 @@ Set-Alias sfcm Select-FuzzyCommand
 Set-Alias sfci Select-FuzzyChildItem
 
 #Update-TypeData -MemberType ScriptProperty -MemberName AsFuzzyPattern -Value {Get-FuzzyPattern $this} -TypeName "System.String" -Force
+
 Update-TypeData -TypeName System.Array -MemberType ScriptMethod -MemberName FuzzySearch -force -Value {
     param($p)
     $this | Select-FuzzyString $p
@@ -195,3 +194,8 @@ Update-TypeData -TypeName hashtable -MemberType ScriptMethod -MemberName FuzzySe
     param($p)
     $this.keys | Select-FuzzyString $p
 }
+
+ Update-TypeData -TypeName System.Collections.Specialized.OrderedDictionary -MemberType ScriptMethod -MemberName FuzzySearch -force -Value {
+     param($p)
+     $this.keys | Select-FuzzyString $p
+ }
