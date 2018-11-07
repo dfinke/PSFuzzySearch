@@ -10,3 +10,11 @@
 # What's New 1.0
 - Published to gallery - https://www.powershellgallery.com/packages/PSFuzzySearch
 - Added `FuzzySearch` to objects Array, Hashtable and OrderedDictionary
+- Supports aliases and functions
+
+```powershell
+Set-Alias sfs Select-FuzzyString
+Set-Alias sf Select-Fuzzy
+Set-Alias sfcm Select-FuzzyCommand
+Set-Alias sfci Select-FuzzyChildItem
+```
