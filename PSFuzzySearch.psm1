@@ -12,8 +12,6 @@
     None    -00:00:00.0010000 False
 .Parameter Search
     The search string
-.NOTES
-    General notes
 #>
 function Get-FuzzyPattern {
     [CmdletBinding()]
