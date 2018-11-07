@@ -1,5 +1,5 @@
 $p = @{
-    Name        = "ImportExcel"
+    Name        = "PSFuzzySearch"
     NuGetApiKey = $NuGetApiKey
     ReleaseNote = "Use PowerShell to 'fuzzy' search your data"
 }
