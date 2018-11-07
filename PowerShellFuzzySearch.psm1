@@ -2,7 +2,7 @@
 .SYNOPSIS
     Returns a Regex object from a string.
 .DESCRIPTION
-    Returns a Regex object from a string. The Regex object has no options 
+    Returns a Regex object from a string. The Regex object has no options
     and the pattern is built from `$Search.ToCharArray() -join '.*?'`.
 .EXAMPLE
     C:\PS> Get-FuzzyPattern test
@@ -19,12 +19,12 @@ function Get-FuzzyPattern {
     [CmdletBinding()]
     [OutputType([String])]
     param(
-        [Parameter(Mandatory, Position=0)]        
+        [Parameter(Mandatory, Position=0)]
         $Search=''
     )
 
-    $escArray = $Search.ToCharArray() | Foreach { [Regex]::Escape($_) }  
-    
+    $escArray = $Search.ToCharArray() | Foreach { [Regex]::Escape($_) }
+
     return $escArray -join '.*?'
 }
 
@@ -49,32 +49,32 @@ function Get-FuzzyPattern {
 function Select-FuzzyString {
     [CmdletBinding()]
     [OutputType([Microsoft.PowerShell.Commands.MatchInfo])]
-    param(        
+    param(
         [Parameter(Mandatory, Position=0)]
         $Search='',
         [parameter(ValueFromPipeline=$true)]
         $Path
     )
-    
-    Begin   { $pattern = Get-FuzzyPattern $Search } 
+
+    Begin   { $pattern = Get-FuzzyPattern $Search }
     Process { $Path | Select-String -Pattern $pattern }
 }
 
 function Select-Fuzzy {
     [CmdletBinding()]
-    param(        
+    param(
         $Search='',
         [parameter(ValueFromPipeline=$true)]
         $InputObject
     )
-    
-    Begin 
-    { 
-        $pattern = Get-FuzzyPattern -Search $Search 
-    } 
-    Process 
+
+    Begin
     {
-        If ($InputObject -match $pattern) { $InputObject } 
+        $pattern = Get-FuzzyPattern -Search $Search
+    }
+    Process
+    {
+        If ($InputObject -match $pattern) { $InputObject }
     }
 }
 
@@ -102,7 +102,7 @@ function Select-FuzzyChildItem {
         [Parameter(Mandatory, Position=0)]
         [string]
         $Search = '',
-        
+
         # Specifies a path to one or more locations.
         [Parameter(ValueFromPipeline=$true,
                    Position=1,
@@ -137,11 +137,11 @@ function Select-FuzzyEvents {
         $LogName = "Application"
     )
 
-    $pattern = Get-FuzzyPattern -Search $Search 
+    $pattern = Get-FuzzyPattern -Search $Search
 
     $appEvents = Get-EventLog -LogName $LogName
 
-    $appEvents.Where({  
+    $appEvents.Where({
         $_.Source -match $pattern -or
         $_.MachineName -match $pattern -or
         $_.EntryType -match $pattern -or
@@ -160,11 +160,11 @@ function Select-FuzzyVariable {
         $Search = ''
     )
 
-    $pattern = Get-FuzzyPattern -Search $Search 
+    $pattern = Get-FuzzyPattern -Search $Search
 
     $variables = Get-Variable
 
-    $variables.Where({ 
+    $variables.Where({
         ($_.Key -match $pattern -or $_.Value -match $pattern) -and $_.Name -ne "pattern" -and $_.Name -ne "Search" -and $_.Name -ne '$'
     })
 }
@@ -186,3 +186,12 @@ Set-Alias sfcm Select-FuzzyCommand
 Set-Alias sfci Select-FuzzyChildItem
 
 #Update-TypeData -MemberType ScriptProperty -MemberName AsFuzzyPattern -Value {Get-FuzzyPattern $this} -TypeName "System.String" -Force
+Update-TypeData -TypeName System.Array -MemberType ScriptMethod -MemberName FuzzySearch -force -Value {
+    param($p)
+    $this | Select-FuzzyString $p
+}
+
+Update-TypeData -TypeName hashtable -MemberType ScriptMethod -MemberName FuzzySearch -force -Value {
+    param($p)
+    $this.keys | Select-FuzzyString $p
+}
