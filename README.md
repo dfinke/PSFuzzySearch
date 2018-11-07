@@ -8,5 +8,5 @@
 
 
 # What's New 1.0
-- Published to gallery
+- Published to gallery - https://www.powershellgallery.com/packages/PSFuzzySearch
 - Added `FuzzySearch` to objects Array, Hashtable and OrderedDictionary
