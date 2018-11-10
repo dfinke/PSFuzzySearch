@@ -4,16 +4,14 @@
 
 This is a [direct port of this JavaScript](https://github.com/forrestthewoods/lib_fts/blob/master/code/fts_fuzzy_match.js)
 
-<p align="center">
-<a href="https://dougfinke.visualstudio.com/PSFuzzySearch/_build?buildId=94"><img src="https://dougfinke.visualstudio.com/PSFuzzySearch/_apis/build/status/PSFuzzySearch-CI?branchName=master"></a>
-</p>
 
-<!-- https://dougfinke.visualstudio.com/PSFuzzySearch/_build/results?buildId=94&view=logs -->
+<p align="center">
+<a href="https://dougfinke.visualstudio.com/PSFuzzySearch/_build?definitionId=12"><img src="https://dougfinke.visualstudio.com/PSFuzzySearch/_apis/build/status/PSFuzzySearch-CI?branchName=master"></a>
+</p>
 
 ## In Action
 
 ![](https://raw.githubusercontent.com/dfinke/PowerShellFuzzySearch/master/media/fuzzysearch.gif)
-
 
 # What's New 1.0
 - Published to gallery - https://www.powershellgallery.com/packages/PSFuzzySearch
