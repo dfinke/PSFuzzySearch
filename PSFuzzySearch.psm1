@@ -1,4 +1,6 @@
-﻿<#
+﻿. $PSScriptRoot\SelectFuzzyMatch.ps1
+
+<#
 .SYNOPSIS
     Returns a Regex object from a string.
 .DESCRIPTION
