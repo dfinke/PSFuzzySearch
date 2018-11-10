@@ -6,13 +6,18 @@
 
 [How is the fuzzy search algorithm in Sublime Text designed?](https://blog.forrestthewoods.com/reverse-engineering-sublime-text-s-fuzzy-match-4cffeed33fdb)
 
-This is a [direct port of this JavaScript](https://github.com/forrestthewoods/lib_fts/blob/master/code/fts_fuzzy_match.js)
+This is ported from [this JavaScript](https://github.com/forrestthewoods/lib_fts/blob/master/code/fts_fuzzy_match.js)
 
 ## In Action
 
 ![](https://raw.githubusercontent.com/dfinke/PowerShellFuzzySearch/master/media/fuzzysearch.gif)
 
-# What's New 1.0
+# What's New 1.1.0
+
+- Added scoring for the fuzzy search
+
+# What's New 1.0.0
+
 - Published to gallery - https://www.powershellgallery.com/packages/PSFuzzySearch
 - Added `FuzzySearch` to objects Array, Hashtable and OrderedDictionary
 - Supports aliases and functions
