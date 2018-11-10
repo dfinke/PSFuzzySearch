@@ -4,12 +4,12 @@ Describe "PSFuzzySearch tests" {
     }
 
     It "Should be true" {
-        $actual = cat .\countries.txt | ForEach-Object { Select-FuzzyMatch bh $_ } | Where-Object matched
+        $actual = Get-Content $PSScriptRoot\countries.txt | ForEach-Object { Select-FuzzyMatch bh $_ } | Where-Object matched
 
         $actual.Count | Should Be 8
 
-        $first = ($actual | sort score -Descending)[0]
-        $last = ($actual | sort score -Descending)[-1]
+        $first = ($actual | Sort-Object score -Descending)[0]
+        $last = ($actual | Sort-Object score -Descending)[-1]
 
         $first.str   | Should Be 'Bhutan'
         $first.score | Should Be 11
