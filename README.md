@@ -1,6 +1,8 @@
 # Fuzzy Search
 
-[How is the fuzzy search algorithm in Sublime Text designed?](https://www.quora.com/How-is-the-fuzzy-search-algorithm-in-Sublime-Text-designed)
+[How is the fuzzy search algorithm in Sublime Text designed?](https://blog.forrestthewoods.com/reverse-engineering-sublime-text-s-fuzzy-match-4cffeed33fdb)
+
+This is a [direct port of this JavaScript](https://github.com/forrestthewoods/lib_fts/blob/master/code/fts_fuzzy_match.js)
 
 <p align="center">
 <a href="https://dougfinke.visualstudio.com/PSFuzzySearch/_build?buildId=94"><img src="https://dougfinke.visualstudio.com/PSFuzzySearch/_apis/build/status/PSFuzzySearch-CI?branchName=master"></a>
